@@ -156,6 +156,10 @@
                             <i class="fas fa-info-circle"></i>
                             Tolerance: <strong>± 120,000 LKR</strong>
                         </div>
+                        <button class="btn-explain" id="btnExplain" onclick="openExplainModal()" title="View price breakdown" style="display:none">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Explain</span>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -174,6 +178,38 @@
             </div>
             <div class="modal-body" id="modalBody">
                 <!-- Items will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Explainability Modal -->
+    <div class="modal-overlay" id="explainModalOverlay" onclick="closeExplainModal(event)">
+        <div class="explain-modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeExplainModal(event)">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="modal-title"><i class="fas fa-chart-bar" style="margin-right:7px"></i>Price Breakdown</div>
+            </div>
+            <div class="explain-modal-body">
+                <!-- Chart Section -->
+                <div class="explain-section">
+                    <div class="explain-section-title">
+                        <i class="fas fa-sliders-h"></i> Factor Impact
+                    </div>
+                    <div class="chart-legend">
+                        <span class="legend-decrease"><span></span>Decreases price</span>
+                        <span class="legend-increase"><span></span>Increases price</span>
+                    </div>
+                    <div class="explain-chart" id="explainChart"></div>
+                </div>
+                <!-- Reasons Section -->
+                <div class="explain-section">
+                    <div class="explain-section-title">
+                        <i class="fas fa-list-ul"></i> Key Reasons
+                    </div>
+                    <ul class="reasons-list" id="reasonsList"></ul>
+                </div>
             </div>
         </div>
     </div>

@@ -474,6 +474,222 @@ select.form-control {
     }
 }
 
+/* Explain Button */
+.btn-explain {
+    margin-top: 8px;
+    background: transparent;
+    border: 1.5px solid #667eea;
+    color: #667eea;
+    padding: 5px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-explain:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.35);
+}
+
+/* Explainability Modal */
+.explain-modal {
+    background: white;
+    width: 92%;
+    max-width: 680px;
+    max-height: 85vh;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+}
+
+.explain-modal-body {
+    padding: 16px 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.explain-section {
+    margin-bottom: 20px;
+}
+
+.explain-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #f0f2ff;
+}
+
+.explain-section-title i {
+    color: #667eea;
+    margin-right: 6px;
+}
+
+/* Chart Legend */
+.chart-legend {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 12px;
+}
+
+.chart-legend span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #666;
+}
+
+.legend-decrease span {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    background: #ef4444;
+    display: inline-block;
+}
+
+.legend-increase span {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    background: #22c55e;
+    display: inline-block;
+}
+
+/* Bidirectional Bar Chart */
+.explain-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.chart-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    align-items: center;
+    gap: 10px;
+}
+
+.chart-label {
+    font-size: 11px;
+    color: #444;
+    font-weight: 500;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chart-bar-wrapper {
+    display: flex;
+    align-items: center;
+    height: 24px;
+    position: relative;
+    background: #f3f4f6;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.chart-bar-center {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #d1d5db;
+    z-index: 1;
+}
+
+.chart-bar-fill {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    border-radius: 3px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chart-bar-fill.decrease {
+    background: linear-gradient(90deg, #ef4444, #f87171);
+    right: 50%;
+}
+
+.chart-bar-fill.increase {
+    background: linear-gradient(90deg, #4ade80, #22c55e);
+    left: 50%;
+}
+
+.chart-bar-value {
+    position: absolute;
+    font-size: 9px;
+    font-weight: 600;
+    color: white;
+    padding: 0 5px;
+    white-space: nowrap;
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.chart-bar-value.decrease {
+    right: calc(50% + 3px);
+}
+
+.chart-bar-value.increase {
+    left: calc(50% + 3px);
+}
+
+/* Reasons List */
+.reasons-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.reasons-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: #444;
+    line-height: 1.5;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #f8f9ff;
+    border-left: 3px solid #667eea;
+}
+
+.reasons-list li.reason-decrease {
+    border-left-color: #ef4444;
+    background: #fff5f5;
+}
+
+.reasons-list li.reason-increase {
+    border-left-color: #22c55e;
+    background: #f0fdf4;
+}
+
+.reasons-list li i {
+    margin-top: 2px;
+    flex-shrink: 0;
+    font-size: 11px;
+}
+
+.reasons-list li.reason-decrease i { color: #ef4444; }
+.reasons-list li.reason-increase i { color: #22c55e; }
+
 /* Responsive */
 @media (max-width: 768px) {
     .form-grid {

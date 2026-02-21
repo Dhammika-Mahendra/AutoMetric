@@ -1,5 +1,6 @@
 let currentModalField = null;
 let allModalItems = [];
+let explainabilityData = null;
 
 // Open Modal
 function openModal(field, title) {
@@ -130,16 +131,25 @@ document.getElementById('priceForm').addEventListener('submit', async function(e
         
         const data = await response.json();
         
+        // Store explainability data
+        explainabilityData = data.explainability || null;
+        
         // Display price
         const price = data.price || data.predicted_price || 0;
         document.getElementById('priceValue').textContent = `Rs. ${formatPrice(price)}`;
         priceDisplay.classList.add('show');
         
+        // Show/hide explain button
+        const btnExplain = document.getElementById('btnExplain');
+        if (btnExplain) btnExplain.style.display = explainabilityData ? 'inline-flex' : 'none';
+        
     } catch (error) {
         console.error('Error:', error);
-        // For demo purposes, show a sample price
+        explainabilityData = null;
         document.getElementById('priceValue').textContent = `Rs. --`;
         priceDisplay.classList.add('show');
+        const btnExplain = document.getElementById('btnExplain');
+        if (btnExplain) btnExplain.style.display = 'none';
     } finally {
         // Reset button state
         btnText.style.display = 'inline';
@@ -152,6 +162,80 @@ document.getElementById('priceForm').addEventListener('submit', async function(e
 function formatPrice(price) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+// ── Explainability Modal ──────────────────────────────────────────────────────
+
+function openExplainModal() {
+    if (!explainabilityData) return;
+
+    buildExplainChart(explainabilityData.all_factors || []);
+    buildReasonsList(explainabilityData.reasons || []);
+
+    document.getElementById('explainModalOverlay').classList.add('show');
+}
+
+function closeExplainModal(event) {
+    if (event) event.stopPropagation();
+    document.getElementById('explainModalOverlay').classList.remove('show');
+}
+
+function buildExplainChart(factors) {
+    const container = document.getElementById('explainChart');
+    if (!factors.length) {
+        container.innerHTML = '<p style="color:#999;font-size:12px;">No factor data available.</p>';
+        return;
+    }
+
+    // Max absolute value for scaling (bar fills up to 46% each side)
+    const maxAbs = Math.max(...factors.map(f => Math.abs(f.price_effect)));
+
+    container.innerHTML = factors.map(factor => {
+        const pct = maxAbs > 0 ? (Math.abs(factor.price_effect) / maxAbs) * 46 : 0;
+        const isDecrease = factor.price_effect < 0;
+        const valueText = `${isDecrease ? '−' : '+'}Rs.\u00a0${formatPrice(Math.abs(Math.round(factor.price_effect)))}`;
+        const color = isDecrease ? '#ef4444' : '#22c55e';
+        const barStyle = isDecrease
+            ? `right:50%; width:${pct}%; background:linear-gradient(90deg,#ef4444,#f87171);`
+            : `left:50%; width:${pct}%; background:linear-gradient(90deg,#4ade80,#22c55e);`;
+        const valueStyle = isDecrease
+            ? `right:calc(50% + ${pct}% + 3px); color:${color}; left:auto;`
+            : `left:calc(50% + ${pct}% + 3px); color:${color}; right:auto;`;
+
+        return `
+        <div class="chart-row">
+            <div class="chart-label" title="${factor.feature}: ${factor.value}">
+                ${factor.feature}<br><small style="color:#999;font-weight:400">${factor.value}</small>
+            </div>
+            <div class="chart-bar-wrapper">
+                <div class="chart-bar-center"></div>
+                <div class="chart-bar-fill" style="${barStyle} top:3px; bottom:3px; border-radius:3px; position:absolute;"></div>
+                <span class="chart-bar-value" style="position:absolute; font-size:9px; font-weight:600; white-space:nowrap; top:50%; transform:translateY(-50%); z-index:2; ${valueStyle}">${valueText}</span>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function buildReasonsList(reasons) {
+    const list = document.getElementById('reasonsList');
+    if (!reasons.length) {
+        list.innerHTML = '<li style="color:#999">No reasons available.</li>';
+        return;
+    }
+
+    list.innerHTML = reasons.map(reason => {
+        const isDecrease = /decrease/i.test(reason);
+        const isIncrease = /increase/i.test(reason);
+        const cls = isDecrease ? 'reason-decrease' : isIncrease ? 'reason-increase' : '';
+        const icon = isDecrease
+            ? 'fa-arrow-trend-down'
+            : isIncrease
+                ? 'fa-arrow-trend-up'
+                : 'fa-circle-info';
+        return `<li class="${cls}"><i class="fas ${icon}"></i>${reason}</li>`;
+    }).join('');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 // Modal Data Storage
 const modalData = {
