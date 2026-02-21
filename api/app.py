@@ -4,7 +4,8 @@ import pandas as pd
 from datetime import datetime
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from catboost import CatBoostRegressor
+from catboost import CatBoostRegressor, Pool
+import numpy as np
 
 app = Flask(__name__)
 CORS(app)
@@ -102,19 +103,24 @@ def health_check():
 @app.route('/price', methods=['GET'])
 def predict_price():
     """
-    Predict car price.
+    Predict car price with explainability.
 
     Query parameters (all required unless noted):
         brand, model, yom, engineCC, gear, fuelType,
-        mileage, town, date (YYYY-MM-DD), condition,
+        mileage, town, condition,
         leasing (true/false), airCondition (true/false),
         powerSteering (true/false), powerMirror (true/false),
         powerWindow (true/false)
 
     Returns:
-        JSON  { predicted_price: <float>, price: <int> }
-        predicted_price → raw model output (in ×10,000 LKR units)
-        price           → human-readable price in LKR
+        JSON with:
+        - predicted_price  → raw model output (in ×100,000 LKR units)
+        - price            → human-readable price in LKR
+        - explainability   → SHAP-based breakdown with:
+            • base_price   → average model prediction (LKR)
+            • top_factors  → top 5 features by impact
+            • all_factors  → all features sorted by impact
+            • reasons      → human-readable explanation strings
     """
     try:
         params = request.args.to_dict()
@@ -133,14 +139,55 @@ def predict_price():
         features_df = build_features(params)
         prediction = model.predict(features_df)[0]
 
-        # The model predicts in ×10,000 LKR units
-        price_lkr = round(prediction * 10000)
+        # The model predicts in ×100,000 LKR units
+        price_lkr = round(prediction * 100000)
+
+        # ── Explainability: per-prediction SHAP values ──────────────
+        pool = Pool(features_df, cat_features=CAT_FEATURE_INDICES)
+        shap_raw = model.get_feature_importance(
+            type='ShapValues', data=pool
+        )[0]
+        shap_vals = shap_raw[:-1]          # per-feature SHAP values
+        base_value = float(shap_raw[-1])   # expected (average) prediction
+
+        # Convert raw SHAP into user-friendly impact scores
+        abs_shap = np.abs(shap_vals)
+        total_abs = abs_shap.sum() if abs_shap.sum() > 0 else 1.0
+
+        factors = []
+        for name, val, a in zip(FEATURE_NAMES, shap_vals, abs_shap):
+            direction = 'increases' if val > 0 else 'decreases' if val < 0 else 'neutral'
+            factors.append({
+                'feature': name,
+                'value': str(features_df[name].iloc[0]),
+                'direction': direction,
+                'impact_pct': round(float(a / total_abs) * 100, 1),
+                'price_effect': round(float(val) * 100000),
+            })
+        # Most influential first
+        factors.sort(key=lambda f: abs(f['price_effect']), reverse=True)
+
+        # Top-5 human-readable reasons
+        reasons = []
+        for f in factors[:5]:
+            verb = f['direction']
+            reasons.append(
+                f"{f['feature']} ({f['value']}) {verb} the price "
+                f"by ~Rs. {abs(f['price_effect']):,} "
+                f"({f['impact_pct']}% importance)"
+            )
 
         return jsonify({
             'status': 'success',
             'predicted_price': round(float(prediction), 2),
             'price': price_lkr,
-            'currency': 'LKR'
+            'currency': 'LKR',
+            'explainability': {
+                'base_price': round(base_value * 100000),
+                'top_factors': factors[:5],
+                'all_factors': factors,
+                'reasons': reasons
+            }
         })
 
     except Exception as e:
