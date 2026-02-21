@@ -1,0 +1,108 @@
+# ================================
+
+# Python cache / compiled files
+
+# ================================
+
+**pycache**/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+
+.ipynb_checkpoints/
+
+# ================================
+
+# Virtual environments
+
+# ================================
+
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ================================
+
+# Python packaging
+
+# ================================
+
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ================================
+
+# Logs and runtime files
+
+# ================================
+
+*.log
+*.tmp
+*.swp
+*.swo
+*.pid
+
+# ================================
+
+# OS generated files
+
+# ================================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ================================
+
+# IDE / Editor folders
+
+# ================================
+
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ================================
+
+# Environment variables / secrets
+
+# ================================
+
+.env
+.env.*
+!.env.example
+
+# ================================
+
+# Node modules (if you later add React/Vue)
+
+# ================================
+
+node_modules/
+
+# ================================
+
+# Coverage / test artifacts
+
+# ================================
+
+.coverage
+htmlcov/
+.pytest_cache/
+
+# ================================
+
+# Misc temporary files
+
+# ================================
+
+*.bak
+*.orig
+*~
