@@ -8,10 +8,6 @@
 *.py[cod]
 *$py.class
 
-# Jupyter Notebook checkpoints
-
-.ipynb_checkpoints/
-
 # ================================
 
 # Virtual environments
