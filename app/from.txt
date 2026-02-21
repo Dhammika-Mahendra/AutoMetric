@@ -1,0 +1,17 @@
+Brand - search and select window
+Model  search and select window
+YOM - year 
+Engine CC - number
+Gear - select dropdown [Automatic, Manual]
+Fuel Type - select dropdown [Petrol, Diesel, Hybrid, Electric] 
+Millage(KM) - number
+Town - search and select window 
+Date - date
+Condition - select dropdown [USED, NEW]
+Leasing - checkbox
+AIR CONDITION - checkbox
+POWER STEERING - checkbox
+POWER MIRROR - checkbox 
+POWER WINDOW - checkbox
+
+ 

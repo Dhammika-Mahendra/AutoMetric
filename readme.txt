@@ -22,3 +22,5 @@ open the app/index.html file
 
 --to run ipynb files
   ipykernel settings etc.
+
+  pyvenv config settings
