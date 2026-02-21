@@ -1,0 +1,56 @@
+{
+    "feature_names": [
+        "Brand",
+        "Model",
+        "YOM",
+        "Engine (cc)",
+        "Gear",
+        "Fuel Type",
+        "Millage(KM)",
+        "Town",
+        "Leasing",
+        "Condition",
+        "AIR CONDITION",
+        "POWER STEERING",
+        "POWER MIRROR",
+        "POWER WINDOW",
+        "Listing_Year",
+        "Listing_Month",
+        "Listing_Day",
+        "Car_Age",
+        "Mileage_Per_Year"
+    ],
+    "categorical_features": [
+        "Brand",
+        "Model",
+        "Gear",
+        "Fuel Type",
+        "Town",
+        "Leasing",
+        "Condition",
+        "AIR CONDITION",
+        "POWER STEERING",
+        "POWER MIRROR",
+        "POWER WINDOW"
+    ],
+    "categorical_feature_indices": [
+        0,
+        1,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+    ],
+    "best_iteration": 969,
+    "metrics": {
+        "train_r2": 0.9558453954317064,
+        "test_r2": 0.9168203984007918,
+        "train_rmse": 9.139869758668173,
+        "test_rmse": 12.725547748192646
+    }
+}

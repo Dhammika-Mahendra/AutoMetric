@@ -2,6 +2,9 @@ flask
 flask-cors
 pandas
 numpy
+catboost
+seaborn
+matplotlib
 scikit-learn
 shap
 joblib
