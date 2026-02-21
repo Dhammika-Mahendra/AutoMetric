@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMetric - Car Price Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <span class="logo-text">AutoMetric</span>
+            </div>
+            <p class="description">
+                Get accurate <span class="highlight">car price predictions</span> for the Sri Lankan market. 
+                Simply enter your vehicle details and let our advanced AI model estimate the fair market value 
+                based on current trends and historical data.
+            </p>
+        </header>
+
+        <!-- Form -->
+        <div class="form-container">
+            <form id="priceForm">
+                <div class="form-grid">
+                    <!-- Brand -->
+                    <div class="form-group">
+                        <label><i class="fas fa-copyright"></i>Brand</label>
+                        <div class="search-select">
+                            <input type="text" class="form-control" id="brand" placeholder="Search brand..." readonly onclick="openModal('brand', 'Select Brand')">
+                        </div>
+                    </div>
+
+                    <!-- Model -->
+                    <div class="form-group">
+                        <label><i class="fas fa-car-side"></i>Model</label>
+                        <div class="search-select">
+                            <input type="text" class="form-control" id="model" placeholder="Search model..." readonly onclick="openModal('model', 'Select Model')">
+                        </div>
+                    </div>
+
+                    <!-- Year of Manufacture -->
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-alt"></i>Year of Manufacture</label>
+                        <input type="number" class="form-control" id="yom" placeholder="e.g., 2020" min="1990" max="2026">
+                    </div>
+
+                    <!-- Engine CC -->
+                    <div class="form-group">
+                        <label><i class="fas fa-cogs"></i>Engine CC</label>
+                        <input type="number" class="form-control" id="engineCC" placeholder="e.g., 1500" min="500" max="8000">
+                    </div>
+
+                    <!-- Gear -->
+                    <div class="form-group">
+                        <label><i class="fas fa-dharmachakra"></i>Gear</label>
+                        <select class="form-control" id="gear">
+                            <option value="" disabled selected>Select gear type</option>
+                            <option value="Automatic">Automatic</option>
+                            <option value="Manual">Manual</option>
+                        </select>
+                    </div>
+
+                    <!-- Fuel Type -->
+                    <div class="form-group">
+                        <label><i class="fas fa-gas-pump"></i>Fuel Type</label>
+                        <select class="form-control" id="fuelType">
+                            <option value="" disabled selected>Select fuel type</option>
+                            <option value="Petrol">Petrol</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="Electric">Electric</option>
+                        </select>
+                    </div>
+
+                    <!-- Mileage -->
+                    <div class="form-group">
+                        <label><i class="fas fa-tachometer-alt"></i>Mileage (KM)</label>
+                        <input type="number" class="form-control" id="mileage" placeholder="e.g., 50000" min="0">
+                    </div>
+
+                    <!-- Town -->
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i>Town</label>
+                        <div class="search-select">
+                            <input type="text" class="form-control" id="town" placeholder="Search town..." readonly onclick="openModal('town', 'Select Town')">
+                        </div>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-day"></i>Date</label>
+                        <input type="date" class="form-control" id="date">
+                    </div>
+
+                    <!-- Condition -->
+                    <div class="form-group">
+                        <label><i class="fas fa-star"></i>Condition</label>
+                        <select class="form-control" id="condition">
+                            <option value="" disabled selected>Select condition</option>
+                            <option value="USED">Used</option>
+                            <option value="NEW">New</option>
+                        </select>
+                    </div>
+
+                    <!-- Features Checkboxes -->
+                    <div class="checkbox-group">
+                        <div class="checkbox-group-title">
+                            <i class="fas fa-sliders-h"></i>other
+                        </div>
+                        <div class="checkbox-items">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="leasing">
+                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                <span class="checkbox-label">Leasing</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="airCondition">
+                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                <span class="checkbox-label">Air Condition</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="powerSteering">
+                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                <span class="checkbox-label">Power Steering</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="powerMirror">
+                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                <span class="checkbox-label">Power Mirror</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="powerWindow">
+                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                <span class="checkbox-label">Power Window</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price Button and Display -->
+                <div class="btn-container">
+                    <button type="submit" class="btn-price" id="priceBtn">
+                        <i class="fas fa-tags"></i>
+                        <span class="btn-text">Get Price</span>
+                        <div class="loading">
+                            <div class="spinner"></div>
+                        </div>
+                    </button>
+                    
+                    <!-- Price Display -->
+                    <div class="price-display" id="priceDisplay">
+                        <div class="price-label">Estimated Price</div>
+                        <div class="price-value" id="priceValue">Rs. 0</div>
+                        <div class="price-tolerance">
+                            <i class="fas fa-info-circle"></i>
+                            Tolerance: <strong>± 120,000 LKR</strong>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Popup -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal(event)">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="modal-title" id="modalTitle">Select Option</div>
+                <input type="text" class="modal-search" id="modalSearch" placeholder="Search..." oninput="filterModalItems()">
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Items will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
