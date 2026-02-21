@@ -33,20 +33,16 @@ print(f"✅ Features expected: {FEATURE_NAMES}")
 def build_features(params: dict) -> pd.DataFrame:
     """
     Accepts the raw request parameters (from query-string or JSON body)
-    and returns a single-row DataFrame with the 19 features the model expects.
+    and returns a single-row DataFrame with the 16 features the model expects.
+    Note: Date-based features (Listing_Year, Month, Day) are excluded from the model.
     """
-    # Parse the listing date  →  year / month / day
-    date_str = params.get('date', datetime.today().strftime('%Y-%m-%d'))
-    listing_date = pd.to_datetime(date_str)
-    listing_year = listing_date.year
-    listing_month = listing_date.month
-    listing_day = listing_date.day
-
     yom = int(params['yom'])
     mileage = float(params['mileage'])
     engine_cc = float(params['engineCC'])
 
-    car_age = listing_year - yom
+    # Calculate car age using current year
+    current_year = datetime.today().year
+    car_age = current_year - yom
     mileage_per_year = mileage / (car_age + 1)  # +1 to avoid division by zero
 
     # Map boolean / checkbox values to the labels the model was trained on
@@ -74,9 +70,6 @@ def build_features(params: dict) -> pd.DataFrame:
         'POWER STEERING':   bool_to_label(params.get('powerSteering', False)),
         'POWER MIRROR':     bool_to_label(params.get('powerMirror', False)),
         'POWER WINDOW':     bool_to_label(params.get('powerWindow', False)),
-        'Listing_Year':     listing_year,
-        'Listing_Month':    listing_month,
-        'Listing_Day':      listing_day,
         'Car_Age':          car_age,
         'Mileage_Per_Year': mileage_per_year,
     }

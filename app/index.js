@@ -94,7 +94,6 @@ document.getElementById('priceForm').addEventListener('submit', async function(e
         fuelType: document.getElementById('fuelType').value,
         mileage: parseInt(document.getElementById('mileage').value) || null,
         town: document.getElementById('town').value,
-        date: document.getElementById('date').value,
         condition: document.getElementById('condition').value,
         leasing: document.getElementById('leasing').checked,
         airCondition: document.getElementById('airCondition').checked,
@@ -153,13 +152,6 @@ document.getElementById('priceForm').addEventListener('submit', async function(e
 function formatPrice(price) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
-
-// Set default date to today
-document.addEventListener('DOMContentLoaded', function() {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('date').value = today;
-});
-
 
 // Modal Data Storage
 const modalData = {

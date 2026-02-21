@@ -14,9 +14,6 @@
         "POWER STEERING",
         "POWER MIRROR",
         "POWER WINDOW",
-        "Listing_Year",
-        "Listing_Month",
-        "Listing_Day",
         "Car_Age",
         "Mileage_Per_Year"
     ],
@@ -46,11 +43,11 @@
         12,
         13
     ],
-    "best_iteration": 969,
+    "best_iteration": 989,
     "metrics": {
-        "train_r2": 0.9558453954317064,
-        "test_r2": 0.9168203984007918,
-        "train_rmse": 9.139869758668173,
-        "test_rmse": 12.725547748192646
+        "train_r2": 0.9512345104162105,
+        "test_r2": 0.9169271330681332,
+        "train_rmse": 9.605241788628664,
+        "test_rmse": 12.717380522800395
     }
 }
