@@ -96,6 +96,25 @@ document.getElementById('priceForm').addEventListener('submit', async function(e
         mileage: parseInt(document.getElementById('mileage').value) || null
     };
     
+    // Validate all fields are filled
+    const missingFields = [];
+    if (!formData.brand) missingFields.push('Brand');
+    if (!formData.model) missingFields.push('Model');
+    if (!formData.carAge && formData.carAge !== 0) missingFields.push('Car Age');
+    if (!formData.engineCC) missingFields.push('Engine CC');
+    if (!formData.gear) missingFields.push('Gear');
+    if (!formData.fuelType) missingFields.push('Fuel Type');
+    if (!formData.mileage && formData.mileage !== 0) missingFields.push('Mileage');
+    
+    if (missingFields.length > 0) {
+        showAlert(
+            'warning',
+            'Incomplete Data',
+            `Please fill in all required fields: ${missingFields.join(', ')}`
+        );
+        return;
+    }
+    
     // Show loading state
     btnText.style.display = 'none';
     loading.classList.add('show');
@@ -139,6 +158,14 @@ document.getElementById('priceForm').addEventListener('submit', async function(e
     } catch (error) {
         console.error('Error:', error);
         explainabilityData = null;
+        
+        // Show network error alert
+        showAlert(
+            'error',
+            'Network Error',
+            'Unable to connect to the prediction service. Please ensure the API server is running on http://localhost:5000 and try again.'
+        );
+        
         document.getElementById('priceValue').textContent = `Rs. --`;
         priceDisplay.classList.add('show');
         const btnExplain = document.getElementById('btnExplain');
@@ -229,6 +256,44 @@ function buildReasonsList(reasons) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+
+// Alert Notification Functions
+function showAlert(type, title, message) {
+    const alertOverlay = document.getElementById('alertOverlay');
+    const alertHeader = document.getElementById('alertHeader');
+    const alertIcon = document.getElementById('alertIcon');
+    const alertTitle = document.getElementById('alertTitle');
+    const alertMessage = document.getElementById('alertMessage');
+    
+    // Set alert type (warning or error)
+    alertHeader.className = `alert-header ${type}`;
+    
+    // Set icon based on type
+    if (type === 'warning') {
+        alertIcon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+    } else if (type === 'error') {
+        alertIcon.innerHTML = '<i class="fas fa-times-circle"></i>';
+    }
+    
+    // Set title and message
+    alertTitle.textContent = title;
+    alertMessage.textContent = message;
+    
+    // Show alert
+    alertOverlay.classList.add('show');
+}
+
+function closeAlert() {
+    const alertOverlay = document.getElementById('alertOverlay');
+    alertOverlay.classList.remove('show');
+}
+
+// Close alert with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeAlert();
+    }
+});
 
 // Modal Data Storage
 const modalData = {

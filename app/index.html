@@ -48,13 +48,13 @@
                     <!-- Car Age -->
                     <div class="form-group">
                         <label><i class="fas fa-calendar-alt"></i>Car Age (Years)</label>
-                        <input type="number" class="form-control" id="carAge" placeholder="e.g., 5" min="0" max="76">
+                        <input type="number" class="form-control" id="carAge" placeholder="e.g., 5" min="0" max="100">
                     </div>
 
                     <!-- Engine CC -->
                     <div class="form-group">
                         <label><i class="fas fa-cogs"></i>Engine CC</label>
-                        <input type="number" class="form-control" id="engineCC" placeholder="e.g., 1500" min="500" max="8000">
+                        <input type="number" class="form-control" id="engineCC" placeholder="e.g., 1500" min="100" max="8000">
                     </div>
 
                     <!-- Gear -->
@@ -158,6 +158,24 @@
                     </div>
                     <ul class="reasons-list" id="reasonsList"></ul>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Notification Popup -->
+    <div class="alert-overlay" id="alertOverlay" onclick="closeAlert()">
+        <div class="alert-box" onclick="event.stopPropagation()">
+            <div class="alert-header" id="alertHeader">
+                <div class="alert-icon" id="alertIcon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="alert-title" id="alertTitle">Alert</div>
+            </div>
+            <div class="alert-body" id="alertMessage">
+                This is an alert message.
+            </div>
+            <div class="alert-footer">
+                <button class="alert-btn" onclick="closeAlert()">OK</button>
             </div>
         </div>
     </div>
