@@ -48,7 +48,7 @@
                     <!-- Year of Manufacture -->
                     <div class="form-group">
                         <label><i class="fas fa-calendar-alt"></i>Year of Manufacture</label>
-                        <input type="number" class="form-control" id="yom" placeholder="e.g., 2020" min="1990" max="2026">
+                        <input type="number" class="form-control" id="yom" placeholder="e.g., 2020" min="1950" max="2026">
                     </div>
 
                     <!-- Engine CC -->
@@ -84,58 +84,6 @@
                         <label><i class="fas fa-tachometer-alt"></i>Mileage (KM)</label>
                         <input type="number" class="form-control" id="mileage" placeholder="e.g., 50000" min="0">
                     </div>
-
-                    <!-- Town -->
-                    <div class="form-group">
-                        <label><i class="fas fa-map-marker-alt"></i>Town</label>
-                        <div class="search-select">
-                            <input type="text" class="form-control" id="town" placeholder="Search town..." readonly onclick="openModal('town', 'Select Town')">
-                        </div>
-                    </div>
-
-                    <!-- Condition -->
-                    <div class="form-group">
-                        <label><i class="fas fa-star"></i>Condition</label>
-                        <select class="form-control" id="condition">
-                            <option value="" disabled selected>Select condition</option>
-                            <option value="USED">Used</option>
-                            <option value="NEW">New</option>
-                        </select>
-                    </div>
-
-                    <!-- Features Checkboxes -->
-                    <div class="checkbox-group">
-                        <div class="checkbox-group-title">
-                            <i class="fas fa-sliders-h"></i>other
-                        </div>
-                        <div class="checkbox-items">
-                            <label class="checkbox-item">
-                                <input type="checkbox" id="leasing">
-                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
-                                <span class="checkbox-label">Leasing</span>
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" id="airCondition">
-                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
-                                <span class="checkbox-label">Air Condition</span>
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" id="powerSteering">
-                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
-                                <span class="checkbox-label">Power Steering</span>
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" id="powerMirror">
-                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
-                                <span class="checkbox-label">Power Mirror</span>
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" id="powerWindow">
-                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
-                                <span class="checkbox-label">Power Window</span>
-                            </label>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Price Button and Display -->
@@ -154,7 +102,7 @@
                         <div class="price-value" id="priceValue">Rs. 0</div>
                         <div class="price-tolerance">
                             <i class="fas fa-info-circle"></i>
-                            Tolerance: <strong>± 120,000 LKR</strong>
+                            Tolerance: <strong>± 1,000,000 LKR</strong>
                         </div>
                         <button class="btn-explain" id="btnExplain" onclick="openExplainModal()" title="View price breakdown" style="display:none">
                             <i class="fas fa-chart-bar"></i>

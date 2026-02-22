@@ -34,27 +34,12 @@ print(f"✅ Features expected: {FEATURE_NAMES}")
 def build_features(params: dict) -> pd.DataFrame:
     """
     Accepts the raw request parameters (from query-string or JSON body)
-    and returns a single-row DataFrame with the 16 features the model expects.
-    Note: Date-based features (Listing_Year, Month, Day) are excluded from the model.
+    and returns a single-row DataFrame with the features the model expects.
+    Only uses: Brand, Model, YOM, Engine (cc), Gear, Fuel Type, Millage(KM)
     """
     yom = int(params['yom'])
     mileage = float(params['mileage'])
     engine_cc = float(params['engineCC'])
-
-    # Calculate car age using current year
-    current_year = datetime.today().year
-    car_age = current_year - yom
-    mileage_per_year = mileage / (car_age + 1)  # +1 to avoid division by zero
-
-    # Map boolean / checkbox values to the labels the model was trained on
-    def bool_to_label(val):
-        """Convert 'true'/'false'/bool → 'Available'/'Not Available'"""
-        if isinstance(val, bool):
-            return 'Available' if val else 'Not Available'
-        return 'Available' if str(val).lower() == 'true' else 'Not Available'
-
-    leasing_val = params.get('leasing', False)
-    leasing_label = 'Leasing' if str(leasing_val).lower() == 'true' else 'No Leasing'
 
     row = {
         'Brand':            params['brand'],
@@ -64,15 +49,6 @@ def build_features(params: dict) -> pd.DataFrame:
         'Gear':             params['gear'],
         'Fuel Type':        params['fuelType'],
         'Millage(KM)':      mileage,
-        'Town':             params['town'],
-        'Leasing':          leasing_label,
-        'Condition':        params.get('condition', 'USED'),
-        'AIR CONDITION':    bool_to_label(params.get('airCondition', False)),
-        'POWER STEERING':   bool_to_label(params.get('powerSteering', False)),
-        'POWER MIRROR':     bool_to_label(params.get('powerMirror', False)),
-        'POWER WINDOW':     bool_to_label(params.get('powerWindow', False)),
-        'Car_Age':          car_age,
-        'Mileage_Per_Year': mileage_per_year,
     }
 
     # Return a DataFrame with columns in exactly the order the model expects
@@ -105,12 +81,8 @@ def predict_price():
     """
     Predict car price with explainability.
 
-    Query parameters (all required unless noted):
-        brand, model, yom, engineCC, gear, fuelType,
-        mileage, town, condition,
-        leasing (true/false), airCondition (true/false),
-        powerSteering (true/false), powerMirror (true/false),
-        powerWindow (true/false)
+    Query parameters (all required):
+        brand, model, yom, engineCC, gear, fuelType, mileage
 
     Returns:
         JSON with:
@@ -127,7 +99,7 @@ def predict_price():
 
         # Validate required fields
         required = ['brand', 'model', 'yom', 'engineCC', 'gear',
-                     'fuelType', 'mileage', 'town']
+                     'fuelType', 'mileage']
         missing = [f for f in required if f not in params or not params[f]]
         if missing:
             return jsonify({
