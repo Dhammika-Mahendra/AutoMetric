@@ -6,48 +6,25 @@
         "Engine (cc)",
         "Gear",
         "Fuel Type",
-        "Millage(KM)",
-        "Town",
-        "Leasing",
-        "Condition",
-        "AIR CONDITION",
-        "POWER STEERING",
-        "POWER MIRROR",
-        "POWER WINDOW",
-        "Car_Age",
-        "Mileage_Per_Year"
+        "Millage(KM)"
     ],
     "categorical_features": [
         "Brand",
         "Model",
         "Gear",
-        "Fuel Type",
-        "Town",
-        "Leasing",
-        "Condition",
-        "AIR CONDITION",
-        "POWER STEERING",
-        "POWER MIRROR",
-        "POWER WINDOW"
+        "Fuel Type"
     ],
     "categorical_feature_indices": [
         0,
         1,
         4,
-        5,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13
+        5
     ],
-    "best_iteration": 989,
+    "best_iteration": 999,
     "metrics": {
-        "train_r2": 0.9512345104162105,
-        "test_r2": 0.9169271330681332,
-        "train_rmse": 9.605241788628664,
-        "test_rmse": 12.717380522800395
+        "train_r2": 0.9455245290368081,
+        "test_r2": 0.926865004716894,
+        "train_rmse": 10.152020921510898,
+        "test_rmse": 11.932479192579182
     }
 }
