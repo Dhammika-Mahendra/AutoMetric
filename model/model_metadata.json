@@ -20,11 +20,14 @@
         4,
         5
     ],
-    "best_iteration": 999,
+    "best_iteration": 1226,
+    "split_strategy": "stratified_train_val_test (70-15-15)",
     "metrics": {
-        "train_r2": 0.9455245290368081,
-        "test_r2": 0.926865004716894,
-        "train_rmse": 10.152020921510898,
-        "test_rmse": 11.932479192579182
+        "train_r2": 0.9656070638609404,
+        "val_r2": 0.8932673406797913,
+        "test_r2": 0.911865940448591,
+        "train_rmse": 8.02367253305538,
+        "val_rmse": 14.304393517917928,
+        "test_rmse": 13.386397700947695
     }
 }
