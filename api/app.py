@@ -35,20 +35,27 @@ def build_features(params: dict) -> pd.DataFrame:
     """
     Accepts the raw request parameters (from query-string or JSON body)
     and returns a single-row DataFrame with the features the model expects.
-    Only uses: Brand, Model, YOM, Engine (cc), Gear, Fuel Type, Millage(KM)
+    Features: Brand, Model, Engine (cc), Gear, Fuel Type, Car_Age, Millage
+    
+    Transformations applied:
+    - Car_Age: accepted as-is (user provides car age directly)
+    - Millage: mileage in KM → scaled by ceil(mileage / 100)
     """
-    yom = int(params['yom'])
+    car_age = int(params['carAge'])  # Accept Car_Age directly
     mileage = float(params['mileage'])
     engine_cc = float(params['engineCC'])
+
+    # Scale Millage by dividing by 100 and rounding up
+    millage_scaled = int(np.ceil(mileage / 100))
 
     row = {
         'Brand':            params['brand'],
         'Model':            params['model'],
-        'YOM':              yom,
         'Engine (cc)':      engine_cc,
         'Gear':             params['gear'],
         'Fuel Type':        params['fuelType'],
-        'Millage(KM)':      mileage,
+        'Car_Age':          car_age,
+        'Millage':          millage_scaled,
     }
 
     # Return a DataFrame with columns in exactly the order the model expects
@@ -82,7 +89,7 @@ def predict_price():
     Predict car price with explainability.
 
     Query parameters (all required):
-        brand, model, yom, engineCC, gear, fuelType, mileage
+        brand, model, carAge, engineCC, gear, fuelType, mileage
 
     Returns:
         JSON with:
@@ -98,7 +105,7 @@ def predict_price():
         params = request.args.to_dict()
 
         # Validate required fields
-        required = ['brand', 'model', 'yom', 'engineCC', 'gear',
+        required = ['brand', 'model', 'carAge', 'engineCC', 'gear',
                      'fuelType', 'mileage']
         missing = [f for f in required if f not in params or not params[f]]
         if missing:

@@ -2,11 +2,11 @@
     "feature_names": [
         "Brand",
         "Model",
-        "YOM",
         "Engine (cc)",
         "Gear",
         "Fuel Type",
-        "Millage(KM)"
+        "Car_Age",
+        "Millage"
     ],
     "categorical_features": [
         "Brand",
@@ -17,17 +17,21 @@
     "categorical_feature_indices": [
         0,
         1,
-        4,
-        5
+        3,
+        4
     ],
-    "best_iteration": 1226,
+    "best_iteration": 2176,
     "split_strategy": "stratified_train_val_test (70-15-15)",
+    "feature_engineering": {
+        "Car_Age": "current_year (2026) - YOM",
+        "Millage": "ceil(Millage_KM / 100)"
+    },
     "metrics": {
-        "train_r2": 0.9656070638609404,
-        "val_r2": 0.8932673406797913,
-        "test_r2": 0.911865940448591,
-        "train_rmse": 8.02367253305538,
-        "val_rmse": 14.304393517917928,
-        "test_rmse": 13.386397700947695
+        "train_r2": 0.9667773021188826,
+        "val_r2": 0.8940402276714722,
+        "test_r2": 0.9152558903698849,
+        "train_rmse": 7.8859862855388565,
+        "val_rmse": 14.252507960998628,
+        "test_rmse": 13.126429086039588
     }
 }

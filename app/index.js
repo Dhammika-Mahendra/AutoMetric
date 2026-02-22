@@ -89,7 +89,7 @@ document.getElementById('priceForm').addEventListener('submit', async function(e
     const formData = {
         brand: document.getElementById('brand').value,
         model: document.getElementById('model').value,
-        yom: parseInt(document.getElementById('yom').value) || null,
+        carAge: parseInt(document.getElementById('carAge').value) || null,
         engineCC: parseInt(document.getElementById('engineCC').value) || null,
         gear: document.getElementById('gear').value,
         fuelType: document.getElementById('fuelType').value,
